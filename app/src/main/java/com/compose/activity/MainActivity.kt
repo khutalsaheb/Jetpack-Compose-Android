@@ -27,6 +27,12 @@ class MainActivity : AppCompatActivity() {
                     composable(Screen.Login.route) {
                         LoginScreen(navController = navController)
                     }
+                    composable(Screen.Register.route) {
+                        RegistrationScreen(navController = navController)
+                    }
+                    composable(Screen.Dashboard.route) {
+                        Dashboard()
+                    }
 /*
                 composable("${Screen.Details.route}/{id}") {
                     BaseComponent {

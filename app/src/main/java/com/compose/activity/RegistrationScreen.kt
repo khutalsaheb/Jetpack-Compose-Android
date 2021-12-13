@@ -11,10 +11,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -40,18 +37,21 @@ import com.compose.utils.BackgroundImage
 import com.compose.utils.ImageLogo
 import com.compose.utils.Screen
 
-
 @Composable
-fun LoginScreen(navController: NavController) {
+fun RegistrationScreen(navController: NavController) {
 
     val context = LocalContext.current
     val email = remember { mutableStateOf(TextFieldValue()) }
+    val fullName = remember { mutableStateOf(TextFieldValue()) }
     val password = remember { mutableStateOf(TextFieldValue()) }
     val emailErrorState = remember { mutableStateOf(false) }
+    val fullNameErrorState = remember { mutableStateOf(false) }
     val passwordErrorState = remember { mutableStateOf(false) }
     val passwordVisibility = remember { mutableStateOf(true) }
     val scrollState = rememberScrollState()
     val focusManager = LocalFocusManager.current
+
+
     Box(
         modifier = Modifier.fillMaxSize(),
     ) {
@@ -85,8 +85,63 @@ fun LoginScreen(navController: NavController) {
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    SignInText()
+                    SignUpText()
                     Spacer(Modifier.size(16.dp))
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+
+                        OutlinedTextField(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(5.dp),
+                            value = fullName.value,
+                            onValueChange = {
+                                if (fullNameErrorState.value) {
+                                    fullNameErrorState.value = false
+                                }
+                                fullName.value = it
+                            },
+                            label = {
+
+                                Text(text = stringResource(id = R.string.full_name))
+                            },
+
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Default.Person,
+                                    contentDescription = "name"
+                                )
+                            },
+                            enabled = true,
+                            singleLine = true,
+                            readOnly = false,
+                            maxLines = 1,
+                            keyboardOptions = KeyboardOptions(
+                                capitalization = KeyboardCapitalization.None,
+                                autoCorrect = true,
+                                keyboardType = KeyboardType.Text,
+                                imeAction = ImeAction.Next
+                            ),
+                            textStyle = typography.body2,
+
+                            )
+                    }
+                    if (fullNameErrorState.value) {
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(end = 10.dp),
+                            textAlign = TextAlign.End,
+                            text = stringResource(id = R.string.error_full_name),
+                            color = MaterialTheme.colors.error,
+                            style = typography.body2,
+
+                            )
+
+                    }
 
                     Box(
                         modifier = Modifier
@@ -216,76 +271,74 @@ fun LoginScreen(navController: NavController) {
                         )
 
                     }
-                    Spacer(Modifier.size(16.dp))
-                    Text(
-                        text = stringResource(id = R.string.forgot_password),
-                        textAlign = TextAlign.End,
-                        modifier = Modifier
-                            .padding(10.dp)
-                            .align(Alignment.End),
-                        color = MaterialTheme.colors.primary,
-                        style = typography.body2,
-
-                        )
-                    LoginButton(
-                        context, email,
+                    RegisterButton(
+                        context,
+                        fullName,
+                        fullNameErrorState,
+                        email,
                         emailErrorState,
                         password,
                         passwordErrorState, navController
                     )
+
+                    Spacer(Modifier.size(5.dp))
+                    LoginText(navController)
                     Spacer(Modifier.size(16.dp))
-
-                    val annotatedText = buildAnnotatedString {
-                        //append your initial text
-                        withStyle(
-                            style = SpanStyle(
-                                color = Color.Gray,
-                            )
-                        ) {
-                            append(stringResource(id = R.string.don_t_have_an_account))
-
-                        }
-
-                        //Start of the pushing annotation which you want to color and make them clickable later
-                        pushStringAnnotation(
-                            tag = "SignUp",// provide tag which will then be provided when you click the text
-                            annotation = stringResource(id = R.string.sign_up)
-                        )
-                        //add text with your different color/style
-                        withStyle(
-                            style = SpanStyle(
-                                color = Color.Red,
-                            )
-                        ) {
-                            append(stringResource(id = R.string.sign_up))
-                        }
-                        // when pop is called it means the end of annotation with current tag
-                        pop()
-                    }
-
-                    ClickableText(
-                        text = annotatedText,
-                        onClick = { offset ->
-                            annotatedText.getStringAnnotations(
-                                tag = "SignUp",// tag which you used in the buildAnnotatedString
-                                start = offset,
-                                end = offset
-                            ).firstOrNull()?.let {
-                                navController.popBackStack()
-                                navController.navigate(Screen.Register.route)
-                            }
-                        }
-                    )
                 }
-                Spacer(Modifier.size(16.dp))
             }
         }
     }
 }
 
+@Composable
+fun LoginText(navController: NavController) {
+    val annotatedText = buildAnnotatedString {
+        //append your initial text
+        withStyle(
+            style = SpanStyle(
+                color = Color.Gray,
+            )
+        ) {
+            append(stringResource(id = R.string.already_have_account))
+
+        }
+
+        //Start of the pushing annotation which you want to color and make them clickable later
+        pushStringAnnotation(
+            tag = "SignIn",// provide tag which will then be provided when you click the text
+            annotation = stringResource(id = R.string.already_have_account)
+        )
+        append(" ")
+        //add text with your different color/style
+
+        withStyle(
+            style = SpanStyle(
+                color = Color.Red,
+            )
+        ) {
+            append(stringResource(id = R.string.login))
+        }
+        // when pop is called it means the end of annotation with current tag
+        pop()
+    }
+
+    ClickableText(
+        text = annotatedText,
+        onClick = { offset ->
+            annotatedText.getStringAnnotations(
+                tag = "SignIn",// tag which you used in the buildAnnotatedString
+                start = offset,
+                end = offset
+            ).firstOrNull()?.let {
+                navController.popBackStack()
+                navController.navigate(Screen.Login.route)
+            }
+        }
+    )
+}
 
 @Composable
-fun SignInText() {
+fun SignUpText() {
     Text(text = buildAnnotatedString {
         withStyle(
             style = SpanStyle(
@@ -304,24 +357,30 @@ fun SignInText() {
                 color = Primary,
                 fontSize = 35.sp
             )
-        ) { append(" I") }
-        append("n")
+        ) { append(" U") }
+        append("p")
 
     }, style = typography.body2)
 }
 
 
 @Composable
-private fun LoginButton(
+fun RegisterButton(
     context: Context,
+    name: MutableState<TextFieldValue>,
+    nameErrorState: MutableState<Boolean>,
     email: MutableState<TextFieldValue>,
     emailErrorState: MutableState<Boolean>,
     password: MutableState<TextFieldValue>,
-    passwordErrorState: MutableState<Boolean>, navController: NavController
+    passwordErrorState: MutableState<Boolean>,
+    navController: NavController
 ) {
     Button(
         onClick = {
             when {
+                name.value.text.isEmpty() -> {
+                    nameErrorState.value = true
+                }
                 email.value.text.isEmpty() -> {
                     emailErrorState.value = true
                 }
@@ -337,14 +396,14 @@ private fun LoginButton(
                         Toast.LENGTH_SHORT
                     ).show()
                     navController.popBackStack()
-                    navController.navigate(Screen.Dashboard.route)
+                    navController.navigate(Screen.Login.route)
                 }
             }
 
         },
         content = {
             Text(
-                text = stringResource(id = R.string.login), color = Color.White,
+                text = stringResource(id = R.string.sign_up), color = Color.White,
                 style = typography.button
             )
         },
