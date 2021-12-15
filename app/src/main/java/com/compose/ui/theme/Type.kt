@@ -50,7 +50,7 @@ val typography = Typography(
     h6 = TextStyle(
         fontSize = 20.sp,
         fontFamily = appFontFamily,
-        fontWeight = FontWeight.W100,
+        fontWeight = FontWeight.Normal,
     ),
     subtitle1 = TextStyle(
         fontSize = 18.sp,

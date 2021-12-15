@@ -1,4 +1,6 @@
-package com.compose.utils
+package com.compose.data.model
+
+import java.io.Serializable
 
 data class Puppy(
     val id: Int,
@@ -7,4 +9,4 @@ data class Puppy(
     val age: Int,
     val description: String,
     val puppyImageId: Int = 0
-)
+) : Serializable

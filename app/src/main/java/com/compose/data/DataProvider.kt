@@ -1,6 +1,7 @@
-package com.compose.utils
+package com.compose.data
 
 import com.compose.R
+import com.compose.data.model.Puppy
 
 object DataProvider {
 
