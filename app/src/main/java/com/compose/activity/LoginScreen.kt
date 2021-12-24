@@ -1,7 +1,6 @@
 package com.compose.activity
 
-import android.content.Context
-import android.widget.Toast
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,14 +14,10 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -37,14 +32,17 @@ import com.compose.R
 import com.compose.ui.theme.Primary
 import com.compose.ui.theme.typography
 import com.compose.utils.BackgroundImage
+import com.compose.utils.ErrorSnackbar
 import com.compose.utils.ImageLogo
 import com.compose.utils.Screen
+import kotlinx.coroutines.launch
 
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun LoginScreen(navController: NavController) {
-
-    val context = LocalContext.current
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
     val email = remember { mutableStateOf(TextFieldValue()) }
     val password = remember { mutableStateOf(TextFieldValue()) }
     val emailErrorState = remember { mutableStateOf(false) }
@@ -130,16 +128,27 @@ fun LoginScreen(navController: NavController) {
                             )
                     }
                     if (emailErrorState.value) {
-                        Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(end = 10.dp),
-                            textAlign = TextAlign.End,
-                            text = stringResource(id = R.string.error_email),
-                            color = MaterialTheme.colors.error,
-                            style = typography.body2,
-
+                        scope.launch {
+                            snackbarHostState.showSnackbar(
+                                message = "snackbarErrorText",
+                                actionLabel = "snackbarActionLabel"
                             )
+                        }
+
+
+                        /*
+                            Text(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(end = 10.dp),
+                                textAlign = TextAlign.End,
+                                text = stringResource(id = R.string.error_email),
+                                color = MaterialTheme.colors.error,
+                                style = typography.body2,
+
+                                )
+    */
+
 
                     }
                     Box(
@@ -228,7 +237,7 @@ fun LoginScreen(navController: NavController) {
 
                         )
                     LoginButton(
-                        context, email,
+                        email,
                         emailErrorState,
                         password,
                         passwordErrorState, navController
@@ -276,8 +285,17 @@ fun LoginScreen(navController: NavController) {
                             }
                         }
                     )
+                    Box(
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        ErrorSnackbar(
+                            snackbarHostState = snackbarHostState,
+                            modifier = Modifier.align(Alignment.BottomCenter)
+                        )
+                    }
                 }
                 Spacer(Modifier.size(16.dp))
+
             }
         }
     }
@@ -313,7 +331,6 @@ fun SignInText() {
 
 @Composable
 private fun LoginButton(
-    context: Context,
     email: MutableState<TextFieldValue>,
     emailErrorState: MutableState<Boolean>,
     password: MutableState<TextFieldValue>,
@@ -331,11 +348,11 @@ private fun LoginButton(
                 else -> {
                     passwordErrorState.value = false
                     emailErrorState.value = false
-                    Toast.makeText(
+                    /*  Toast.makeText(
                         context,
                         context.resources.getText(R.string.login_success),
                         Toast.LENGTH_SHORT
-                    ).show()
+                    ).show()*/
                     navController.popBackStack()
                     navController.navigate(Screen.Dashboard.route)
                 }

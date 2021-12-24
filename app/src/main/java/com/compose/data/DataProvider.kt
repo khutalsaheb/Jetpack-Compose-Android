@@ -1,9 +1,13 @@
 package com.compose.data
 
 import com.compose.R
+import com.compose.data.model.Owner
 import com.compose.data.model.Puppy
 
 object DataProvider {
+
+    private val owner =
+        Owner("SANDY KHUTAL", "Developer & Pet Lover", R.drawable.ic_logo)
 
     val puppyList = listOf(
         Puppy(
@@ -12,7 +16,7 @@ object DataProvider {
             sex = "Male",
             age = 14,
             description = "Monty enjoys chicken treats and cuddling while watching Seinfeld.",
-            puppyImageId = R.drawable.android
+            puppyImageId = R.drawable.android, owner
         ),
         Puppy(
             id = 2,
@@ -20,7 +24,7 @@ object DataProvider {
             sex = "Female",
             age = 6,
             description = "Jubilee enjoys thoughtful discussions by the campfire.",
-            puppyImageId = R.drawable.android
+            puppyImageId = R.drawable.android, owner
         ),
         Puppy(
             id = 3,
@@ -28,7 +32,7 @@ object DataProvider {
             sex = "Male",
             age = 8,
             description = "Beezy's favorite past-time is helping you choose your brand color.",
-            puppyImageId = R.drawable.android
+            puppyImageId = R.drawable.android, owner
         ),
         Puppy(
             id = 4,
@@ -36,7 +40,7 @@ object DataProvider {
             sex = "Male",
             age = 10,
             description = "Mochi is the perfect \"rubbery ducky\" debugging pup, always listening.",
-            puppyImageId = R.drawable.android
+            puppyImageId = R.drawable.android, owner
         ),
         Puppy(
             id = 5,
@@ -44,7 +48,7 @@ object DataProvider {
             sex = "Female",
             age = 12,
             description = "Brewery loves fetching you your favorite homebrew.",
-            puppyImageId = R.drawable.android
+            puppyImageId = R.drawable.android, owner
         ),
         Puppy(
             id = 6,
@@ -52,7 +56,7 @@ object DataProvider {
             sex = "Female",
             age = 8,
             description = "Picture yourself in a boat on a river, Lucy is a pup with kaleidoscope eyes.",
-            puppyImageId = R.drawable.android
+            puppyImageId = R.drawable.android, owner
         ),
         Puppy(
             id = 7,
@@ -60,7 +64,7 @@ object DataProvider {
             sex = "Male",
             age = 10,
             description = "Is it a bird? A plane? No, it's Astro blasting off into your heart!",
-            puppyImageId = R.drawable.android
+            puppyImageId = R.drawable.android, owner
         ),
         Puppy(
             id = 8,
@@ -68,7 +72,7 @@ object DataProvider {
             sex = "Female",
             age = 9,
             description = "Boo is just a teddy bear in disguise. What he lacks in grace, he makes up in charm.",
-            puppyImageId = R.drawable.android
+            puppyImageId = R.drawable.android, owner
         ),
         Puppy(
             id = 9,
@@ -76,7 +80,7 @@ object DataProvider {
             sex = "Male",
             age = 7,
             description = "Pippa likes to look out the window and write pup-poetry.",
-            puppyImageId = R.drawable.android
+            puppyImageId = R.drawable.android, owner
         ),
         Puppy(
             id = 10,
@@ -84,7 +88,7 @@ object DataProvider {
             sex = "Female",
             age = 10,
             description = "Coco enjoys getting pampered at the local puppy spa.",
-            puppyImageId = R.drawable.android
+            puppyImageId = R.drawable.android, owner
         ),
         Puppy(
             id = 11,
@@ -92,7 +96,7 @@ object DataProvider {
             sex = "Male",
             age = 13,
             description = "Brody is a good boy, waiting for your next command.",
-            puppyImageId = R.drawable.android
+            puppyImageId = R.drawable.android, owner
         ),
         Puppy(
             id = 12,
@@ -100,7 +104,7 @@ object DataProvider {
             sex = "Female",
             age = 14,
             description = "Stella! Calm and always up for a challenge, she's the perfect companion.",
-            puppyImageId = R.drawable.android
+            puppyImageId = R.drawable.android, owner
         ),
     )
 }
