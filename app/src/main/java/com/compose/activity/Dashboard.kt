@@ -13,9 +13,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.compose.ui.theme.typography
 import com.compose.data.DataProvider
 import com.compose.data.model.Puppy
+import com.compose.ui.theme.typography
 import com.compose.utils.PuppyImage
 
 @Composable
@@ -26,16 +26,13 @@ fun Dashboard() {
         TopAppBar(
             title = {
                 Text(text = "Pets Dashboard")
-            },
-            /*navigationIcon = {
-            IconButton(onClick = { }) {
-                Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menu Btn")
-            }
-        },
-        */
-
-        )
-
+            })
+        /*navigationIcon = {
+        IconButton(onClick = { }) {
+            Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menu Btn")
+        }
+    },
+    */
         LazyColumn(
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
         ) {
@@ -68,7 +65,8 @@ fun PuppyListItem(puppy: Puppy) {
             ) {
                 Text(text = "Name: ${puppy.title}", style = typography.h6)
                 Text(
-                    text = "Age/Sex: ${puppy.age} Months - ${puppy.sex} ", style = typography.caption
+                    text = "Age/Sex: ${puppy.age} Months - ${puppy.sex} ",
+                    style = typography.caption
                 )
 
             }
